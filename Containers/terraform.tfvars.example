@@ -1,0 +1,38 @@
+# Exemplo de configuração para o Terraform do Proxmox - VERSÃO REFATORADA
+# Copie este arquivo para terraform.tfvars e preencha com seus valores
+
+# Configuração da API do Proxmox
+proxmox_api_url = "https://192.168.1.61:8006/api2/json"
+proxmox_token_id = "root@pam!terraform-token"
+proxmox_token_secret = "e2e55f0b-0909-45e8-b8f1-fd692e08424e"
+proxmox_node = "pve"
+storage_pool = "DATA"
+
+# Configuração do container
+container_config = {
+  hostname    = "nextcloud"
+  ostemplate  = "local:vztmpl/debian-12-standard_12.7-1_amd64.tar.zst"
+  cores       = 2           # Ajuste conforme necessário
+  memory      = 2048        # Ajuste conforme necessário
+  disk_size   = "200G"
+  ip_address  = "dhcp"      # ou "192.168.1.100/24" para IP fixo
+  gateway     = null        # ou "192.168.1.1" para IP fixo
+}
+
+# Configuração de rede
+network_config = {
+  interface = "eth0"
+  bridge    = "vmbr0"
+}
+
+# Autenticação
+ssh_public_keys = ""      # Adicione suas chaves SSH aqui
+root_password = "nextcloud123"
+
+# Tags e metadados  
+environment = "production"
+project = "homelab"
+additional_tags = ["nextcloud", "web-server"]
+
+# NOTA: A configuração usa lifecycle ignore_changes para evitar
+# recriação acidental do container em certas situações. 
